@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Codebaby_Fidelityprogram>
+      <version>0.1.0</version>
+    </Codebaby_Fidelityprogram>
+  </modules>
+  <global>
+    <helpers>
+      <fidelityprogram>
+        <class>Codebaby_Fidelityprogram_Helper</class>
+      </fidelityprogram>
+    </helpers>
+	<models>
+	  <fidelityprogram>
+		<class>Codebaby_Fidelityprogram_Model</class>
+		<resourceModel>fidelityprogram_mysql4</resourceModel>
+	  </fidelityprogram>
+	</models>
+	<blocks>
+        <codebaby_fidelityprogram>
+        	<class>Codebaby_Fidelityprogram_Block</class>
+        </codebaby_fidelityprogram>
+        <!-- <catalog>
+        	<rewrite>
+        		<product_price>Mecalux_Storecredit_Block_Product_Price</product_price>
+        	</rewrite>
+        </catalog> -->
+    </blocks>
+	<resources>
+	  <customerattribute1552903062_setup>
+		<setup>
+		  <module>Codebaby_Fidelityprogram</module>
+		  <class>Mage_Customer_Model_Entity_Setup</class>
+		</setup>
+		<connection>
+		  <use>core_setup</use>
+		</connection>
+	  </customerattribute1552903062_setup>
+	  <customerattribute1552903062_write>
+		<connection>
+		  <use>core_write</use>
+		</connection>
+	  </customerattribute1552903062_write>
+	  <customerattribute1552903062_read>
+		<connection>
+		  <use>core_read</use>
+		</connection>
+	  </customerattribute1552903062_read>
+	</resources>
+	<events>
+		<!-- <catalog_product_collection_load_after>
+        	<observers>
+                <mecalux_storecredit>
+                    <type>model</type>
+                    <class>Mecalux_Storecredit_Model_Observer</class>
+                    <method>priceUpdate</method>
+                </mecalux_storecredit>
+            </observers>
+        </catalog_product_collection_load_after> -->
+        <sales_order_place_after>
+	        <observers>
+	            <fidelityprogram>
+	                <class>Codebaby_Fidelityprogram_Model_Observer</class>
+	                <method>removeUsedFidelityProgramCoupon</method>
+	            </fidelityprogram>
+	        </observers>
+	    </sales_order_place_after>
+    </events>
+  </global>
+  <frontend>
+  	<routers>
+  		<customer>
+  			<args>
+  				<modules>
+  					<codebaby_fidelityprogram before="Mage_Customer">Codebaby_Fidelityprogram_Customer</codebaby_fidelityprogram>
+  				</modules>
+  			</args>
+  		</customer>
+  		<fidelity> <!-- this matches the first part of the layout handle -->
+                <use>standard</use>
+                <args>
+                    <module>Codebaby_Fidelityprogram</module>
+                    <frontName>fidelity</frontName> <!-- this matches 'module' before the slash in the path node above -->
+                </args>
+        </fidelity>
+        <coupongenerator>
+        	<use>standard</use>
+            <args>
+                <module>Codebaby_Fidelityprogram</module>
+                <frontName>coupongenerator</frontName> <!-- this matches 'module' before the slash in the path node above -->
+            </args>
+        </coupongenerator>
+    </routers>
+  	<layout>
+  		<updates>
+  			<codebaby_fidelityprogram>
+  				<file>codebaby_fidelityprogram/fidelityprogram.xml</file>
+  			</codebaby_fidelityprogram>
+  		</updates>
+  	</layout>
+  </frontend>
+  <adminhtml>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<codebabyfidelityprogram>
+											<title>CodeBaby Fidelity Program - All</title>
+										</codebabyfidelityprogram>
+										<generaln_tab>
+											<title>Fidelity Program Settings - All</title>
+										</generaln_tab>
+										<couponpointssystem_tab>
+											<title>Fidelity Program Coupon Settings - All</title>
+										</couponpointssystem_tab>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+	</adminhtml>
+</config> 

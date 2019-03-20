@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<layout>
+	<customer_account><!-- <customer_account translate="label"> -->
+        <reference name="customer_account_navigation">
+            <action method="addLink">
+                <name>codebaby_fidelityprogram_fronttab</name>
+                <path>fidelity/program</path>
+                <label>Fidelity program</label>
+            </action>
+        </reference>
+    </customer_account>
+	<default translate="label" module="page">
+		<reference name="head">
+			<action method="addItem">
+				<type>skin_css</type>
+				<stylesheet>css/codebaby_fidelityprogram.css</stylesheet>
+			</action>
+		</reference>
+	</default>
+	<fidelity_program_index> <!-- module here matches node directly beneath <routers> in config.xml -->
+       <update handle="customer_account"/> <!-- include existing customer account layout -->
+       <reference name="my.account.wrapper"> <!-- target parent block -->
+           <block type="codebaby_fidelityprogram/dashboardpage" name="codebaby_fidelity_dashboard_page" template="codebaby_fidelityprogram/fidelitypage.phtml"/>
+           <block type="customer/account_dashboard" name="customer.account.link.back" template="customer/account/link/back.phtml" /> <!-- add a back link -->
+       </reference>
+   </fidelity_program_index>
+</layout>

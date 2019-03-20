@@ -1,0 +1,17 @@
+<div class="codebaby-custom-lightbox-wrapper">
+	<div class="codebaby-wrapper">
+		<div class="codebaby-leftcol">
+			<div class="codebaby_vertical_banner_wrapper">
+				<?php $urlSkin = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>
+				<?php $urlProgram = Mage::getBaseUrl().'fidelity/program' ?>
+				<a href="<?php echo $urlProgram; ?>"><img src="<?php echo $urlSkin.'frontend/base/default/images/codebaby_fidelityprogram/fidelitybanner2.jpg'; ?>" alt=""></a>
+			</div>
+		</div>
+		<div class="codebaby-rightcol">
+			<h2><?php echo $this->__('Olá ').$this->getCustomer()->getName().$this->__('! É com imenso prazer que apresentamos o nosso programa fidelidade!'); ?></h2>
+			<p><?php echo $this->__('A partir de agora os valores investidos em suas compras são convertidos em pontos e você pode utilizar estes pontos para receber discontos na loja!'); ?></p>
+			<p><?php echo $this->__('Clique aqui no botão abaixo para conhecer mais sobre o projeto'); ?></p>
+			<a href="<?php echo $urlProgram; ?>" class="button"><?php echo $this->__('Mais detalhes'); ?></a>
+		</div>
+	</div>
+</div>

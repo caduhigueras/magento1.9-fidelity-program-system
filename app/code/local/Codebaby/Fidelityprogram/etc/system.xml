@@ -1,0 +1,227 @@
+<config>
+	<tabs>
+		<codebabyfidelityprogram translate="label">
+			<label>CodeBaby Fidelity Program</label>
+			<sort_order>100</sort_order>
+		</codebabyfidelityprogram>
+	</tabs>
+	<sections>
+		<generaln_tab translate="label">
+			<label>Fidelity Program General Settings</label>
+			<tab>codebabyfidelityprogram</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>1000</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>
+				<fidelitysettingsgroup translate="label" module="fidelityprogram">
+					<label>Configure Credit for Customer Group</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>01</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<enable_emailnotification translate="label">
+							<label>Customer E-mail Notification</label>
+							<!-- TODO: set default email template -->
+							<comment>If set to yes, customers will receive an e-mail telling about the fidelity program</comment>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</enable_emailnotification>
+						<customergroup_select translate="label">
+							<label>Customer Group</label>
+							<comment>To which customer groups will the fidelity program points be applied?</comment>
+							<frontend_type>Multiselect</frontend_type>  
+							<source_model>adminhtml/system_config_source_customer_group_multiselect</source_model>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</customergroup_select>
+					</fields>
+				</fidelitysettingsgroup>
+			</groups>
+		</generaln_tab>
+		<couponpointssystem_tab translate="label">
+			<label>Coupon per points System</label>
+			<tab>codebabyfidelityprogram</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>2000</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>	
+				<pointscouponconfig_group translate="label" module="fidelityprogram">
+					<label>Configure Coupon Discount System</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>01</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<enable_couponsystem translate="label">
+							<label>Enable Coupon System:</label>
+							<comment>When your customer reach specific amount of points, a coupon can be generated</comment>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</enable_couponsystem>
+						<money_amount translate="label">
+							<label>Amount of money to generate points:</label>
+							<comment>How much money needs to be spent to generate points (eg: 1 - customer will get x points for each euro spent / 10 - customer will get x points for each 10 euros spent / 100 - customer will get x points for each 100 euros spent)</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</money_amount>
+						<points_permoney translate="label">
+							<label>Points Generated:</label>
+							<comment>How many points will be generated per the amount of money spent. (If you chose before 1 euro and choose 10 points now, customer will get 10 points per euro spent / If you chose before 10 euros and choose 1 point now, customer will get 1 point for every 10 euros spent )</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</points_permoney>
+						<other_infos_field translate="label">
+							<label>Additional Infos</label>
+							<comment>Infos about conditions to be displayed at the fidelity program page</comment>
+							<frontend_type>textarea</frontend_type>
+							<sort_order>40</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</other_infos_field>
+					</fields>
+				</pointscouponconfig_group>
+				<couponfirstlevel_group translate="label" module="fidelityprogram">
+					<label>Configure Coupon First Level</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>02</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<!-- Coupon Level 1 -->
+						<enable_level translate="label">
+							<label>Enable first Level?</label>
+							<comment>If you will use coupons, you should enable this</comment>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</enable_level>
+						<points_toget translate="label">
+							<label>Points to generate 1st level coupon</label>
+							<comment>How many points the customer must have for the coupon to be generated</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</points_toget>
+						<points_permoney translate="label">
+							<label>Coupon Discount</label>
+							<comment>Amount of the discount generated</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</points_permoney>
+					</fields>
+				</couponfirstlevel_group>
+				<couponsecondlevel_group translate="label" module="fidelityprogram">
+					<label>Configure Coupon Second Level</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>03</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<!-- Coupon Level 2 -->
+						<enable_level translate="label">
+							<label>Enable second Level?</label>
+							<comment>If your customer wants to accumulate more points to get a better reward</comment>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</enable_level>
+						<points_toget translate="label">
+							<label>Points to generate 2nd level coupon</label>
+							<comment>How many points the customer must have for the coupon to be generated</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</points_toget>
+						<points_permoney translate="label">
+							<label>Coupon Discount</label>
+							<comment>Amount of the discount generated</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</points_permoney>
+					</fields>
+				</couponsecondlevel_group>
+				<couponthirdlevel_group translate="label" module="fidelityprogram">
+					<label>Configure Coupon Third Level</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>04</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<!-- Coupon Level 3 -->
+						<enable_level translate="label">
+							<label>Enable third Level?</label>
+							<comment>If your customer wants to accumulate even more points to get an even better reward</comment>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</enable_level>
+						<points_toget translate="label">
+							<label>Points to generate 3rd level coupon</label>
+							<comment>How many points the customer must have for the coupon to be generated</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</points_toget>
+						<points_permoney translate="label">
+							<label>Coupon Discount</label>
+							<comment>Amount of the discount generated</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</points_permoney>
+					</fields>
+				</couponthirdlevel_group>
+			</groups>
+		</couponpointssystem_tab>
+	</sections>
+</config>

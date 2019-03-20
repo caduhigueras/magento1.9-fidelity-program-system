@@ -1,0 +1,159 @@
+.codebaby-custom-lightbox-wrapper {
+	background: rgba(0,0,0,0.85);
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 99999;
+	overflow-y: hidden;
+	width: 100%;
+}
+.codebaby-wrapper {
+	width: 50%;
+	height: 37rem;
+	background: #fff;
+	position: absolute;
+	left: 50%;
+	top: 20%;
+	transform: translate(-50%,-20%);
+}
+.codebaby-leftcol {
+	float: left;
+}
+.codebaby-rightcol {
+	float: right;
+	width: 55%;
+	padding: 3rem 4rem 1rem 0;
+}
+.codebaby-wrapper p {
+	margin-bottom: 1rem;
+}
+.codebaby-box-mini {
+	border: 1px solid #ededed;
+	float: left;
+	width: 100%;
+	padding: 10px 10px;
+	margin-bottom: 20px;
+}
+.codebaby-row {
+	width: 100%;
+	display: flex;
+}
+.codebaby-col2 {
+	flex-basis: 50%;
+	padding: 10px;
+}
+.codebaby-bg-box {
+	width: 100%;
+	height: 100%;
+	background: #f7f7f7;
+	padding: 10px 10px;
+}
+.codebaby-box > h3 {
+	color: #000;
+	font-weight: bold;
+}
+.codebaby-paragrafo-padrao {
+	width: 100%;
+	float: left;
+	margin-bottom: 1rem;
+}
+.codebaby-feat-text {
+	color: #39C;
+	font-weight: bold;
+}
+.codebaby-box-mini span {
+	font-weight: bold;
+	color: #39C;
+}
+.codebaby-f-left {
+	float: left;
+	padding-right: 1rem;
+}
+.codebaby-padding-zero{
+	padding: 0;
+}
+.codebaby-featured-box {
+	border: 1px solid #ebebeb;
+	float: left;
+	padding: 10px 10px;
+	width: 100%;
+}
+.codebaby-featured-box p {
+	font-size: 1.2rem;
+	float: left;
+	width: 100%;
+}
+.codebaby-featured-box p.codebaby-feat-points {
+	color: #39C;
+	font-size: 3rem;
+	font-weight: bold;
+}
+.codebaby-featured-box p.codebaby-feat-points span{
+	font-size: 1.2rem;
+}
+.codebaby-bg-icon {
+	background: #ededed;
+	padding: 1rem;
+	border-radius: 50%;
+	width: 110px;
+	height: 110px;
+	text-align: center;
+}
+.codebaby-bg-icon  > img{
+	margin: 9px auto 0;
+}
+.codebaby-simple-box {
+	float: left;
+	width: 100%;
+	background: #f7f7f7;
+	padding: 10px 20px;
+	margin-top: 20px;
+}
+.codebaby-success-msg-row {
+	color: #155724;
+	background-color: #d4edda;
+	border: 1px solid #c3e6cb;
+	padding: 8px;
+	float: left;
+	width: 100%;
+	border-radius: 5px;
+}
+.codebaby-cupon-message{
+	display: flex;
+}
+.codebaby-cupon-message > p {
+	flex-basis: 50%;
+	padding: 8px;
+	font-size:11px;
+}
+.codebaby-cupon-message > p.codebaby-cod-coupon > span {
+	color: #39C;
+	font-size: 18px;
+}
+.codebaby-js-textareacopybtn{
+	border: 0;
+	padding-left: 10px;
+}
+.codebaby-simple-box button.codebaby-generate-bt {
+	width: 100%;
+}
+.codebaby-cupon-message-addendum {
+	text-align: center;
+}
+@media (max-width: 1480px) {
+  .codebaby-wrapper{
+  	width: 70%;
+  }
+}
+@media (max-width: 768px) {
+  .codebaby-wrapper{
+  	width: 85%;
+  }
+}
+@media (max-width: 480px) {
+  .codebaby-wrapper{
+  	width: 95%;
+  }
+}

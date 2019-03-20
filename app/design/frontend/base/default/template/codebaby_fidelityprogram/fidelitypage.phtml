@@ -1,0 +1,115 @@
+<?php $urlSkin = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>
+<?php $generatedCoupon = $_GET['success']; ?>
+<div class="page-title">
+    <h1><?php echo $this->__('Fidelity Program'); ?></h1>
+</div>
+<?php if($this->couponSystemEnabledField()): ?>
+	<?php if($generatedCoupon): ?>
+		<div class="codebaby-row codebaby-success-msg-row">
+			<span class="codebaby-success-txt"><?php echo $this->__('Seu cupom foi gerado com sucesso!') ?></span>
+		</div>
+	<?php endif; ?>
+	<div class="codebaby-row">
+		<div class="codebaby-col2">
+			<div class="codebaby-featured-box">
+				<div class="codebaby-f-left">
+					<div class="codebaby-bg-icon" >
+						<img src="<?php echo $urlSkin.'frontend/base/default/images/codebaby_fidelityprogram/codebaby-wallet-icon.png'; ?>" alt="">
+					</div>
+				</div>
+				<div class="codebaby-f-left codebaby-padding-zero">
+					<p><?php echo $this->__('Você possui:'); ?></p>
+					<p class="codebaby-feat-points"><?php echo $this->getCustomer()->getCustomer_fidelity_points()."<span>".$this->__(' pontos.')."</span>"; ?></p>
+				</div>
+			</div>
+			<div class="codebaby-simple-box">
+				<?php if($this->generateCouponButton()): ?>
+					<?php $discount = $this->generateCouponButton() ?>
+					<?php $url = Mage::getBaseUrl()."coupongenerator/generate?discount=".$discount; ?>
+					<form action="<?php echo $url ?>" method="post">
+						<button class="button codebaby-generate-bt" type="submit">Generate Coupon</button>
+					</form>
+				<?php else: ?>
+					<p><?php echo $this->__('O botão para gerar seu cupom aparecerá aqui quando você alcançar os pontos necessários.') ?></p>
+				<?php endif; ?>
+			</div>
+			<?php if($this->getCurrentCoupon()): ?>
+				<div class="codebaby-simple-box">
+					<h5 class="codebaby-row"><?php echo $this->__('Current coupon:') ?></h5>
+					<div class="codebaby-cupon-message">
+						<p><?php echo $this->__('Use this coupon to get a discount on any product of the store:'); ?></p>
+						<p class="codebaby-cod-coupon js-copytextarea"><span class="codebaby-js-copytextarea"><?php echo $this->getCurrentCoupon(); ?></span><button class="codebaby-js-textareacopybtn"><img src="<?php echo $urlSkin.'frontend/base/default/images/codebaby_fidelityprogram/codebaby-copy-icon.png'; ?>" alt=""></button></p>
+					</div>
+					<p class="codebaby-cupon-message-addendum"><?php echo $this->__('This coupon is worth: ').$this->getCurrentCouponAmount(); ?></p>
+				</div>
+				<script type="text/javascript">
+				/* <![CDATA[ */
+				var copyTextareaBtn = document.querySelector('.codebaby-js-textareacopybtn');
+				copyTextareaBtn.addEventListener('click', function(event) {
+				  var copyTextarea = document.querySelector('.codebaby-js-copytextarea');
+				  // console.log(copyTextarea.innerText); 
+				  copyTextarea.innerText.focus();
+				  copyTextarea.innerText.select();
+
+				  try {
+				    var successful = document.execCommand('copy');
+				    var msg = successful ? 'successful' : 'unsuccessful';
+				    console.log('Copying text command was ' + msg);
+				  } catch (err) {
+				    console.log('Oops, unable to copy');
+				  }
+				});
+				/* ]]> */
+				</script>
+					
+			<?php endif; ?>
+		</div>
+		<div class="codebaby-col2">
+			<div class="codebaby-box codebaby-bg-box">
+				<?php //$currency_name = Mage::app()->getLocale()->currency( $currency_code )->getName(); 
+				$currency_symbol = Mage::app()->getLocale()->currency( $currency_code )->getSymbol(); ?>
+				<h3><?php echo $this->__('Regras de Uso:'); ?></h3>
+				<p class="codebaby-paragrafo-padrao"><?php echo $this->__('A cada ')."<span class='codebaby-feat-text'>".$currency_symbol.$this->couponSystemMoneyAmount()."</span>".$this->__(' em compras, você acumula ')."<span class='codebaby-feat-text'>".$this->couponSystemPointsPerMoney().$this->__(' pontos.')."</span>"; ?></p>
+				<div class="codebaby-box-mini">
+					<div class="codebaby-f-left">
+						<img src="<?php echo $urlSkin.'frontend/base/default/images/codebaby_fidelityprogram/codebaby-voucher-icon.png'; ?>" alt="">
+					</div>
+					<div class="codebaby-f-left codebaby-padding-zero">
+						<h4><?php echo $this->__('Com ').$this->couponSystemFirstLevelPointsToGet().$this->__('pontos:') ?></h4>
+						<p><?php echo $this->__('Você ganha um cupom de desconto de ')."<span>".$currency_symbol.$this->couponSystemFirstLevelCouponDiscount()."</span>"; ?></p>
+					</div>
+				</div>
+				<?php if($this->couponSystemEnableSecondLevel()): ?>
+					<div class="codebaby-box-mini">
+						<div class="codebaby-f-left">
+							<img src="<?php echo $urlSkin.'frontend/base/default/images/codebaby_fidelityprogram/codebaby-voucher-icon.png'; ?>" alt="">
+						</div>
+						<div class="codebaby-f-left codebaby-padding-zero">
+							<h4><?php echo $this->__('Com ').$this->couponSystemSecondLevelPointsToGet().$this->__('pontos:') ?></h4>
+							<p><?php echo $this->__('Você ganha um cupom de desconto de ')."<span>".$currency_symbol.$this->couponSystemSecondLevelCouponDiscount()."</span>"; ?></p>
+						</div>
+					</div>
+				<?php endif; ?>
+				<?php if($this->couponSystemEnableThirdLevel()): ?>
+					<div class="codebaby-box-mini">
+						<div class="codebaby-f-left">
+							<img src="<?php echo $urlSkin.'frontend/base/default/images/codebaby_fidelityprogram/codebaby-voucher-icon.png'; ?>" alt="">
+						</div>
+						<div class="codebaby-f-left codebaby-padding-zero">
+							<h4><?php echo $this->__('Com ').$this->couponSystemThirdLevelPointsToGet().$this->__('pontos:') ?></h4>
+							<p><?php echo $this->__('Você ganha um cupom de desconto de ')."<span>".$currency_symbol.$this->couponSystemThirdLevelCouponDiscount()."</span>"; ?></p>
+						</div>
+					</div>
+				<?php endif; ?>
+			</div>
+		</div>
+	</div>
+	<div class="codebaby-simple-box codebaby-conditions-box">
+		<div class="codebaby-simple-box">
+			<p><?php echo $this->getPromoConditions(); ?></p>
+		</div>
+	</div>
+<?php else: ?>
+	<?php echo "not ok"; ?>
+<?php endif; ?>
+<?php $this->getCurrentCouponAmount(); ?>
