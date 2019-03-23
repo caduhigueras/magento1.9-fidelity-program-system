@@ -54,7 +54,7 @@ class Codebaby_Fidelityprogram_GenerateController extends Mage_Core_Controller_F
     	$name = "Fidelity Program: ".$customer->getName(); // name of Shopping Cart Price Rule
 		$websiteId = 1;
 		$customerGroupId = $customer->getGroupId();; 
-		$actionType = 'by_fixed'; // discount by percentage
+		$actionType = 'cart_fixed';
 		//generating coupon
 		$couponInit = 'FP';
 		$couponEnd = $this->generateRandomString();
