@@ -11,20 +11,6 @@ class Codebaby_Fidelityprogram_GenerateController extends Mage_Core_Controller_F
         endif;
         $this->generateNewShoppingCartRule($discount);
 	    $this->_redirect('fidelity/program?success=true');
-    	
-
-    	//$this->loadLayout();
-    	// $blockHtml = $this->getLayout()->createBlock('codebaby_fidelityprogram/dashboardbox')
-    	// 						  ->setTemplate('codebaby_fidelityprogram/lightbox.phtml');
-			  //   $this->getLayout()->getBlock('content')->append($bannerHtml)->append($blockHtml);
-		//$blockHtml = $this->getLayout()->createBlock('core/text')
-    	//						  ->setText('Cupom Criado!');
-		//$this->getLayout()->getBlock('content')->append($blockHtml);
-        //$this->renderLayout();
-	    
-	    //return;
-		// echo $this->getCurrentCustomer()->getName();
-
     }
 
     //get customer
@@ -35,7 +21,10 @@ class Codebaby_Fidelityprogram_GenerateController extends Mage_Core_Controller_F
     protected function generateNewShoppingCartRule($discountAmount)
     {
     	$customer = $this->getCurrentCustomer();
-    	$currentPoints = $this->getCurrentCustomer()->getCustomer_fidelity_points();
+    	//getting values on new table
+    	$customerCouponInfo = $this->getCustomerCouponInfo($customer);
+        $currentPoints = $customerCouponInfo['customer_fidelity_points'];
+    	
     	//check all options of points
     	$couponSystemFirstLevelPointsToGet = Mage::getStoreConfig('couponpointssystem_tab/couponfirstlevel_group/points_toget',Mage::app()->getStore());
 		$couponSystemSecondLevelPointsToGet = Mage::getStoreConfig('couponpointssystem_tab/couponsecondlevel_group/points_toget',Mage::app()->getStore());
@@ -49,14 +38,15 @@ class Codebaby_Fidelityprogram_GenerateController extends Mage_Core_Controller_F
 		elseif($currentPoints >= $couponSystemThirdLevelPointsToGet):
 			$pointsAfterSubstract = $currentPoints - $couponSystemThirdLevelPointsToGet;
 		endif;
-		if(!($x >= $y)) echo "True";
+		//if(!($x >= $y)) echo "True";
 		//define params of the shopping cart rule
     	$name = "Fidelity Program: ".$customer->getName(); // name of Shopping Cart Price Rule
 		$websiteId = 1;
-		$customerGroupId = $customer->getGroupId();; 
-		$actionType = 'cart_fixed';
+		$customerGroupId = $customer->getGroupId(); 
+		$actionType = 'cart_fixed'; // discount by percentage
 		//generating coupon
-		$couponInit = 'FP';
+		//TODO: Add prefix to module config
+		$couponInit = 'CBFP';
 		$couponEnd = $this->generateRandomString();
 		$generatedCoupon = $couponInit.$couponEnd;
 		//TODO:fazer função pra verificar se o cupom já existe
@@ -84,17 +74,27 @@ class Codebaby_Fidelityprogram_GenerateController extends Mage_Core_Controller_F
 		    ->setDiscountAmount($discountAmount)
 		    ->setStopRulesProcessing(0);
 		 
-		// $skuCondition = Mage::getModel('salesrule/rule_condition_product')
-		//                     ->setType('salesrule/rule_condition_product')
-		//                     ->setAttribute('sku')
-		//                     ->setOperator('==')
-		//                     ->setValue($sku);
-		                    
 		try {    
-		    //$shoppingCartPriceRule->getConditions()->addCondition($skuCondition);
-		    $customer->setCustomercurrentfidelitycoupon($generatedCoupon);
-		    $customer->setCustomer_fidelity_points($pointsAfterSubstract);
-		    $customer->save();
+			//cria o cupom no BD
+			$couponDataFormat = array(
+				'customer_id' => $customer->getId(),
+				'codigo_coupon' => $generatedCoupon,
+				'is_cupom_used' => 0
+			 );
+			$couponModel = Mage::getModel('fidelityprogram/fidelitycouponcodebaby')->setData($couponDataFormat); 
+			$couponModel->save();
+
+			//remove os pontos usados do cliente
+			//check coupon collection with customer ID
+	        $couponCollection = Mage::getModel('fidelityprogram/fidelitycouponcodebabynotified')->getCollection()
+	        ->addFieldToSelect('*')->addFieldToFilter('customer_id', $customer->getId())->getFirstItem();
+	        //check if array brings results
+	        $couponCollectionArray = $couponCollection->getData();
+	        $dbId = $couponCollectionArray['notified_id'];
+	        $data = array('customer_fidelity_points'=>$pointsAfterSubstract);
+			$model = Mage::getModel('fidelityprogram/fidelitycouponcodebabynotified')->load($dbId)->addData($data);
+			$model->save();
+			//save coupon
 		    $shoppingCartPriceRule->save();                
 		    //$shoppingCartPriceRule->applyAll();
 		} catch (Exception $e) {
@@ -103,7 +103,7 @@ class Codebaby_Fidelityprogram_GenerateController extends Mage_Core_Controller_F
 		}
 	}
 
-	function generateRandomString($length = 10) {
+	public function generateRandomString($length = 10) {
 	    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	    $charactersLength = strlen($characters);
 	    $randomString = '';
@@ -112,4 +112,17 @@ class Codebaby_Fidelityprogram_GenerateController extends Mage_Core_Controller_F
 	    }
 	    return $randomString;
 	}
+
+	public function getCustomerCouponInfo($customer){
+        //get all coupons not used ans with the current customer id
+        $customerId = $customer->getId();
+        $customerCouponCollection = Mage::getModel('fidelityprogram/fidelitycouponcodebabynotified')->getCollection()
+        ->addFieldToSelect('*')->addFieldToFilter('customer_id', $customerId)->getFirstItem();
+        //check if array brings results
+        if(sizeof($customerCouponCollection) > 0):
+            return $customerCouponCollection->getData();
+        else:
+            return false;
+        endif;
+    }
 }

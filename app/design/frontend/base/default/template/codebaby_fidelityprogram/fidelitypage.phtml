@@ -19,7 +19,11 @@
 				</div>
 				<div class="codebaby-f-left codebaby-padding-zero">
 					<p><?php echo $this->__('Você possui:'); ?></p>
-					<p class="codebaby-feat-points"><?php echo $this->getCustomer()->getCustomer_fidelity_points()."<span>".$this->__(' pontos.')."</span>"; ?></p>
+					<?php /* ?>
+					<p class="codebaby-feat-points"><?php echo $this->getCustomer()->getCustomer_fidelity_points()."<span>".$this->__(' pontos.')."</span>"; ?></p><?php */ ?>
+					<?php $customerData = $this->getCustomerCouponInfo($this->getCustomer()); ?>
+					<p class="codebaby-feat-points"><?php echo $customerData['customer_fidelity_points']."<span>".$this->__(' pontos.')."</span>"; ?></p>
+					
 				</div>
 			</div>
 			<div class="codebaby-simple-box">
@@ -35,15 +39,24 @@
 			</div>
 			<?php if($this->getCurrentCoupon()): ?>
 				<div class="codebaby-simple-box">
-					<h5 class="codebaby-row"><?php echo $this->__('Current coupon:') ?></h5>
-					<div class="codebaby-cupon-message">
-						<p><?php echo $this->__('Use this coupon to get a discount on any product of the store:'); ?></p>
-						<p class="codebaby-cod-coupon js-copytextarea"><span class="codebaby-js-copytextarea"><?php echo $this->getCurrentCoupon(); ?></span><button class="codebaby-js-textareacopybtn"><img src="<?php echo $urlSkin.'frontend/base/default/images/codebaby_fidelityprogram/codebaby-copy-icon.png'; ?>" alt=""></button></p>
-					</div>
-					<p class="codebaby-cupon-message-addendum"><?php echo $this->__('This coupon is worth: ').$this->getCurrentCouponAmount(); ?></p>
+					<h5 class="codebaby-row"><?php echo $this->__('Current coupons:') ?></h5>
+					<?php foreach ($this->getCurrentCoupon() as $cupom) { ?>
+						<?php $codCupom = $cupom['codigo_coupon']; ?>
+						<?php if($cupom['is_cupom_used'] == 0): ?>
+							<div class="codebaby-cupon-message">
+								<p><?php echo $this->__('Use this coupon to get a discount on any product of the store:'); ?></p>
+								<p class="codebaby-cod-coupon js-copytextarea">
+									<span class="codebaby-js-copytextarea"><?php echo $codCupom; ?></span>
+									<!-- <button class="codebaby-js-textareacopybtn"><img src="<?php //echo $urlSkin.'frontend/base/default/images/codebaby_fidelityprogram/codebaby-copy-icon.png'; ?>" alt=""></button> -->
+								</p>
+							</div>
+							<p class="codebaby-cupon-message-addendum"><?php echo $this->__('This coupon is worth: ').$this->getCurrentCouponAmount($codCupom); ?></p>
+							<hr class="codebaby-simple-hr" />
+						<?php endif; ?>
+					<?php } ?>
 				</div>
 				<script type="text/javascript">
-				/* <![CDATA[ */
+				/* <![CDATA[ *//*
 				var copyTextareaBtn = document.querySelector('.codebaby-js-textareacopybtn');
 				copyTextareaBtn.addEventListener('click', function(event) {
 				  var copyTextarea = document.querySelector('.codebaby-js-copytextarea');
@@ -58,7 +71,7 @@
 				  } catch (err) {
 				    console.log('Oops, unable to copy');
 				  }
-				});
+				});*/
 				/* ]]> */
 				</script>
 					
@@ -112,4 +125,23 @@
 <?php else: ?>
 	<?php echo "not ok"; ?>
 <?php endif; ?>
-<?php $this->getCurrentCouponAmount(); ?>
+<?php //$this->getCurrentCouponAmount(); ?>
+<?php if($this->hasCouponUsed()): ?>
+	<?php $customerCouponCollection = $this->hasCouponUsed(); ?>
+	<div class="codebaby-row">
+		<div class="codebaby-simple-box">
+				<h4><?php echo $this->__('Cupom Usage History'); ?></h4>
+				<?php foreach ($customerCouponCollection as $usedCoupon) { ?>
+					<div class="codebaby-history-box">
+						<?php $cuponHistory = $usedCoupon->getData(); ?>
+						<p><?php echo $this->__('Cupom Used: '); ?><?php echo $cuponHistory['codigo_coupon']; ?></p>
+						<p>|</p>
+						<p><?php echo $this->__('Cupom Used on: '); ?><?php echo $cuponHistory['date_used_cupom']; ?></p>
+						<p>|</p>
+						<p><?php echo $this->__('On Order: '); ?><?php echo "#".$cuponHistory['order_used_cupom']; ?></p>
+					</div>
+					<hr class="codebaby-simple-hr" />
+				<?php } ?>
+			</div>
+		</div>
+<?php endif; ?>

@@ -1,7 +1,7 @@
 <?php
 class Codebaby_Fidelityprogram_Block_DashboardPage extends Mage_Core_Block_Template{
-	
-	public function getCustomer()
+    
+    public function getCustomer()
     {
         $customer = Mage::getSingleton('customer/session')->getCustomer();
         if ($customer->getId()):
@@ -84,9 +84,9 @@ class Codebaby_Fidelityprogram_Block_DashboardPage extends Mage_Core_Block_Templ
     }
 
     public function getCurrentCoupon(){
-        $customer = $this->getCustomer();
-        if($customer->getCustomercurrentfidelitycoupon()):
-            return $customer->getCustomercurrentfidelitycoupon();
+        $customerId = $this->getCustomer()->getId();
+        if($this->getCustomerCouponCollection($customerId)):
+            return $this->getCustomerCouponCollection($customerId);
         endif;
         return false;
     }
@@ -107,7 +107,9 @@ class Codebaby_Fidelityprogram_Block_DashboardPage extends Mage_Core_Block_Templ
     }
 
     public function isCouponRedeamable(){
-        $currentPoints = $this->getCustomer()->getCustomer_fidelity_points();
+        //$currentPoints = $this->getCustomer()->getCustomer_fidelity_points();
+        $customerData = $this->getCustomerCouponInfo($this->getCustomer());
+        $currentPoints = $customerData['customer_fidelity_points'];
         
         $toGetCoupon1 = $this->couponSystemFirstLevelPointsToGet();
         $discountCoupon1 = $this->couponSystemFirstLevelCouponDiscount();
@@ -143,12 +145,46 @@ class Codebaby_Fidelityprogram_Block_DashboardPage extends Mage_Core_Block_Templ
         endif;
     }
 
-    public function getCurrentCouponAmount(){
-        $couponCode = $this->getCustomer()->getCustomercurrentfidelitycoupon();
-        $currentCoupon = Mage::getModel('salesrule/coupon')->load($couponCode, 'code');
+    public function getCurrentCouponAmount($couponcode){
+        $currentCoupon = Mage::getModel('salesrule/coupon')->load($couponcode, 'code');
         $currentRule = Mage::getModel('salesrule/rule')->load($currentCoupon->getRuleId());
         $discountAmount = $currentRule->getDiscountAmount();
         return $formattedDiscount = Mage::helper('core')->currency($discountAmount, true, false);
-        //print_r($currentRule->getData());exit();
     }
-}	
+
+    public function getCustomerCouponCollection($customerid){
+        //get all coupons not used ans with the current customer id
+        $couponCollection = Mage::getModel('fidelityprogram/fidelitycouponcodebaby')->getCollection()
+        ->addFieldToSelect('*')->addFieldToFilter('customer_id', $customerid)->addFieldToFilter('is_cupom_used', 0);
+        $couponCollectionData = $couponCollection->getData();
+        //check if array brings results
+        if(sizeof($couponCollectionData) > 0):
+            return $couponCollectionData;
+        else:
+            return false;
+        endif;
+    }
+
+    public function getCustomerCouponInfo($customer){
+        //get all coupons not used ans with the current customer id
+        $customerId = $customer->getId();
+        $customerCouponCollection = Mage::getModel('fidelityprogram/fidelitycouponcodebabynotified')->getCollection()
+        ->addFieldToSelect('*')->addFieldToFilter('customer_id', $customerId)->getFirstItem();
+        //check if array brings results
+        if(sizeof($customerCouponCollection) > 0):
+            return $customerCouponCollection->getData();
+        else:
+            return false;
+        endif;
+    }
+
+    public function hasCouponUsed(){
+        $customerId = $this->getCustomer()->getId();
+        $customerCouponCollection = Mage::getModel('fidelityprogram/fidelitycouponcodebaby')->getCollection()
+        ->addFieldToSelect('*')->addFieldToFilter('customer_id', $customerId)->addFieldToFilter('is_cupom_used', 1);
+        if(sizeof($customerCouponCollection)>0):
+            return $customerCouponCollection;
+        endif;
+        return false;
+    }
+}

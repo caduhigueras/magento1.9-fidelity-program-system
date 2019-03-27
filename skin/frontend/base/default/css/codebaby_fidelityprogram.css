@@ -79,6 +79,7 @@
 	float: left;
 	padding: 10px 10px;
 	width: 100%;
+	display: flex;
 }
 .codebaby-featured-box p {
 	font-size: 1.2rem;
@@ -141,6 +142,15 @@
 }
 .codebaby-cupon-message-addendum {
 	text-align: center;
+}
+.codebaby-simple-hr {
+	margin: 10px 0;
+	border-color: #ebebeb;
+}
+.codebaby-history-box {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
 }
 @media (max-width: 1480px) {
   .codebaby-wrapper{
