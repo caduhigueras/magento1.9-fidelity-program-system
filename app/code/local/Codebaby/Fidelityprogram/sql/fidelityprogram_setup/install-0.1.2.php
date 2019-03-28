@@ -44,6 +44,9 @@ $table = $installer->getConnection()
     ->addColumn('is_customer_notified', Varien_Db_Ddl_Table::TYPE_BOOLEAN, null, array(
         'nullable'  => false,
         ), 'is Notified?')
+    ->addColumn('customer_fidelity_points_to_be_confirmed', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'nullable'  => false,
+        ), 'Fidelity Points to be Confirmed')
     ->addColumn('customer_fidelity_points', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'nullable'  => false,
         ), 'Fidelity Points Accumulated')
@@ -53,5 +56,27 @@ $table = $installer->getConnection()
     
 $installer->getConnection()->createTable($table);
 
+$table = $installer->getConnection()
+    ->newTable($installer->getTable('fidelityprogram/fidelitycouponcodebabybeforegenerate'))
+    ->addColumn('beforegenerate_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'identity'  => true,
+        'unsigned'  => true,
+        'nullable'  => false,
+        'primary'   => true,
+        ), 'Id')
+    ->addColumn('customer_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'nullable'  => false,
+        ), 'Customer Id')
+    ->addColumn('order_coupon_generate', Varien_Db_Ddl_Table::TYPE_VARCHAR, null, array(
+        'nullable'  => false,
+        ), 'Order that gave the points')
+    ->addColumn('order_coupon_points_generated', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        'nullable'  => false,
+        ), 'Points the order Gave')
+    ->addColumn('order_coupon_points_generated_applied', Varien_Db_Ddl_Table::TYPE_BOOLEAN, null, array(
+        'nullable'  => false,
+        ), 'Were the points applied?');
+    
+$installer->getConnection()->createTable($table);
  
 $installer->endSetup();

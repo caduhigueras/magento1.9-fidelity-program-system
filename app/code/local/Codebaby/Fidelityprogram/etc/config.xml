@@ -11,116 +11,127 @@
         <class>Codebaby_Fidelityprogram_Helper</class>
       </fidelityprogram>
     </helpers>
-	<models>
-	  <fidelityprogram>
-		<class>Codebaby_Fidelityprogram_Model</class>
-		<resourceModel>fidelityprogram_resource</resourceModel>
-	  </fidelityprogram>
-	  <fidelityprogram_resource>
-	  	<class>Codebaby_Fidelityprogram_Model_Resource</class>
+    <models>
+      <fidelityprogram>
+      <class>Codebaby_Fidelityprogram_Model</class>
+      <resourceModel>fidelityprogram_resource</resourceModel>
+      </fidelityprogram>
+      <fidelityprogram_resource>
+        <class>Codebaby_Fidelityprogram_Model_Resource</class>
         <entities>
-            <fidelitycouponcodebaby>
-                <table>fidelitycoupon_codebaby</table>
-            </fidelitycouponcodebaby>
-            <fidelitycouponcodebabynotified>
-                <table>fidelitycoupon_codebaby_notified</table>
-            </fidelitycouponcodebabynotified>
+          <fidelitycouponcodebaby>
+              <table>fidelitycoupon_codebaby</table>
+          </fidelitycouponcodebaby>
+          <fidelitycouponcodebabynotified>
+              <table>fidelitycoupon_codebaby_notified</table>
+          </fidelitycouponcodebabynotified>
+          <fidelitycouponcodebabybeforegenerate>
+              <table>fidelitycoupon_codebaby_before_generate</table>
+          </fidelitycouponcodebabybeforegenerate>
         </entities>
-	  </fidelityprogram_resource>
-	</models>
-	<blocks>
-        <codebaby_fidelityprogram>
-        	<class>Codebaby_Fidelityprogram_Block</class>
-        </codebaby_fidelityprogram>
+      </fidelityprogram_resource>
+    </models>
+    <blocks>
+      <codebaby_fidelityprogram>
+        <class>Codebaby_Fidelityprogram_Block</class>
+      </codebaby_fidelityprogram>
     </blocks>
     <resources>
-        <fidelityprogram_setup>
-            <setup>
-                <module>Codebaby_Fidelityprogram</module>
-            </setup>
-        </fidelityprogram_setup>
-        <fidelityprogram_write>
-            <connection>
-                <use>core_write</use>
-            </connection>
-        </fidelityprogram_write>
-        <fidelityprogram_read>
-            <connection>
-                <use>core_read</use>
-            </connection>
-        </fidelityprogram_read>
+      <fidelityprogram_setup>
+          <setup>
+              <module>Codebaby_Fidelityprogram</module>
+          </setup>
+      </fidelityprogram_setup>
+      <fidelityprogram_write>
+          <connection>
+              <use>core_write</use>
+          </connection>
+      </fidelityprogram_write>
+      <fidelityprogram_read>
+          <connection>
+              <use>core_read</use>
+          </connection>
+      </fidelityprogram_read>
     </resources>
-	<events>
-		<sales_order_place_after>
-	        <observers>
-	            <fidelityprogram>
-	                <class>Codebaby_Fidelityprogram_Model_Observer</class>
-	                <method>removeUsedFidelityProgramCoupon</method>
-	            </fidelityprogram>
-	        </observers>
-	    </sales_order_place_after>
+    <events>
+      <sales_order_place_after>
+        <observers>
+          <fidelityprogram>
+              <class>Codebaby_Fidelityprogram_Model_Observer</class>
+              <method>removeUsedFidelityProgramCoupon</method>
+          </fidelityprogram>
+        </observers>
+      </sales_order_place_after>
+      <sales_order_save_after>
+        <observers>
+          <fidelityprogram>
+              <class>Codebaby_Fidelityprogram_Model_Observer</class>
+              <method>applyCouponAfterConfirmPayment</method>
+          </fidelityprogram>
+        </observers>
+      </sales_order_save_after> 
     </events>
   </global>
   <frontend>
-  	<routers>
-  		<customer>
-  			<args>
-  				<modules>
-  					<codebaby_fidelityprogram before="Mage_Customer">Codebaby_Fidelityprogram_Customer</codebaby_fidelityprogram>
-  				</modules>
-  			</args>
-  		</customer>
-  		<fidelity>
-                <use>standard</use>
-                <args>
-                    <module>Codebaby_Fidelityprogram</module>
-                    <frontName>fidelity</frontName>
-                </args>
-        </fidelity>
-        <coupongenerator>
-        	<use>standard</use>
-            <args>
-                <module>Codebaby_Fidelityprogram</module>
-                <frontName>coupongenerator</frontName>
-            </args>
-        </coupongenerator>
+    <routers>
+      <customer>
+        <args>
+          <modules>
+            <codebaby_fidelityprogram before="Mage_Customer">Codebaby_Fidelityprogram_Customer</codebaby_fidelityprogram>
+          </modules>
+        </args>
+      </customer>
+      <fidelity> <!-- this matches the first part of the layout handle -->
+        <use>standard</use>
+        <args>
+            <module>Codebaby_Fidelityprogram</module>
+            <frontName>fidelity</frontName> <!-- this matches 'module' before the slash in the path node above -->
+        </args>
+      </fidelity>
+      <coupongenerator>
+        <use>standard</use>
+          <args>
+              <module>Codebaby_Fidelityprogram</module>
+              <frontName>coupongenerator</frontName> <!-- this matches 'module' before the slash in the path node above -->
+          </args>
+      </coupongenerator>
     </routers>
-  	<layout>
-  		<updates>
-  			<codebaby_fidelityprogram>
-  				<file>codebaby_fidelityprogram/fidelityprogram.xml</file>
-  			</codebaby_fidelityprogram>
-  		</updates>
-  	</layout>
+    <layout>
+      <updates>
+        <codebaby_fidelityprogram>
+          <file>codebaby_fidelityprogram/fidelityprogram.xml</file>
+        </codebaby_fidelityprogram>
+      </updates>
+    </layout>
   </frontend>
   <adminhtml>
-		<acl>
-			<resources>
-				<all>
-					<title>Allow Everything</title>
-				</all>
-				<admin>
-					<children>
-						<system>
-							<children>
-								<config>
-									<children>
-										<codebabyfidelityprogram>
-											<title>CodeBaby Fidelity Program - All</title>
-										</codebabyfidelityprogram>
-										<generaln_tab>
-											<title>Fidelity Program Settings - All</title>
-										</generaln_tab>
-										<couponpointssystem_tab>
-											<title>Fidelity Program Coupon Settings - All</title>
-										</couponpointssystem_tab>
-									</children>
-								</config>
-							</children>
-						</system>
-					</children>
-				</admin>
-			</resources>
-		</acl>
-	</adminhtml>
-</config> 
+    <acl>
+      <resources>
+        <all>
+          <title>Allow Everything</title>
+        </all>
+        <admin>
+          <children>
+            <system>
+              <children>
+                <config>
+                  <children>
+                    <codebabyfidelityprogram>
+                      <title>CodeBaby Fidelity Program - All</title>
+                    </codebabyfidelityprogram>
+                    <generaln_tab>
+                      <title>Fidelity Program Settings - All</title>
+                    </generaln_tab>
+                    <couponpointssystem_tab>
+                      <title>Fidelity Program Coupon Settings - All</title>
+                    </couponpointssystem_tab>
+                  </children>
+                </config>
+              </children>
+            </system>
+          </children>
+        </admin>
+      </resources>
+    </acl>
+  </adminhtml>
+</config>

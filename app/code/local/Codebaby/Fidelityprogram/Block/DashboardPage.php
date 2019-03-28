@@ -7,7 +7,6 @@ class Codebaby_Fidelityprogram_Block_DashboardPage extends Mage_Core_Block_Templ
         if ($customer->getId()):
             return $customer;
         endif;
-
         return false;
     }
 
@@ -20,11 +19,11 @@ class Codebaby_Fidelityprogram_Block_DashboardPage extends Mage_Core_Block_Templ
     }
 
     public function couponSystemMoneyAmount(){
-        return $couponSystemMoneyAmount = Mage::getStoreConfig('couponpointssystem_tab/pointscouponconfig_group/money_amount',Mage::app()->getStore());    
+        return $couponSystemMoneyAmount = Mage::getStoreConfig('couponpointssystem_tab/pointscouponconfig_group/money_amount',Mage::app()->getStore());
     }
 
     public function couponSystemPointsPerMoney(){
-        return $couponSystemPointsPerMoney = Mage::getStoreConfig('couponpointssystem_tab/pointscouponconfig_group/points_permoney',Mage::app()->getStore());    
+        return $couponSystemPointsPerMoney = Mage::getStoreConfig('couponpointssystem_tab/pointscouponconfig_group/points_permoney',Mage::app()->getStore());
     }
 
     public function couponSystemEnableFirstLevel(){

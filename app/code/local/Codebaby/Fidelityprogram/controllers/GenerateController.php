@@ -52,11 +52,6 @@ class Codebaby_Fidelityprogram_GenerateController extends Mage_Core_Controller_F
 		//TODO:fazer função pra verificar se o cupom já existe
 		//Mage::getModel('salesrule/coupon')->load($couponCode, 'code');
 
-		//$generatedCoupon = '1236154564564'; 
-		//(other options are: by_fixed, cart_fixed, buy_x_get_y,by_percent)
-		//$discount = 10; // percentage discount
-		//$sku = 'chair'; // product sku
-		 
 		$shoppingCartPriceRule = Mage::getModel('salesrule/rule');
 		$shoppingCartPriceRule
 		    ->setName($name)
@@ -73,7 +68,7 @@ class Codebaby_Fidelityprogram_GenerateController extends Mage_Core_Controller_F
 		    ->setSimpleAction($actionType)
 		    ->setDiscountAmount($discountAmount)
 		    ->setStopRulesProcessing(0);
-		 
+
 		try {    
 			//cria o cupom no BD
 			$couponDataFormat = array(
@@ -113,7 +108,7 @@ class Codebaby_Fidelityprogram_GenerateController extends Mage_Core_Controller_F
 	    return $randomString;
 	}
 
-	public function getCustomerCouponInfo($customer){
+    public function getCustomerCouponInfo($customer){
         //get all coupons not used ans with the current customer id
         $customerId = $customer->getId();
         $customerCouponCollection = Mage::getModel('fidelityprogram/fidelitycouponcodebabynotified')->getCollection()

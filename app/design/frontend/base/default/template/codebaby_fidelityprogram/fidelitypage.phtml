@@ -1,5 +1,9 @@
 <?php $urlSkin = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN); ?>
-<?php $generatedCoupon = $_GET['success']; ?>
+<?php //$currency_name = Mage::app()->getLocale()->currency( $currency_code )->getName(); 
+$currency_symbol = Mage::app()->getLocale()->currency()->getSymbol(); ?>
+<?php if($_GET['success']):
+	$generatedCoupon = $_GET['success']; ?>
+<?php endif; ?>
 <div class="page-title">
     <h1><?php echo $this->__('Fidelity Program'); ?></h1>
 </div>
@@ -23,7 +27,10 @@
 					<p class="codebaby-feat-points"><?php echo $this->getCustomer()->getCustomer_fidelity_points()."<span>".$this->__(' pontos.')."</span>"; ?></p><?php */ ?>
 					<?php $customerData = $this->getCustomerCouponInfo($this->getCustomer()); ?>
 					<p class="codebaby-feat-points"><?php echo $customerData['customer_fidelity_points']."<span>".$this->__(' pontos.')."</span>"; ?></p>
-					
+					<p class="codebaby-feat-points-to-be-confirmed"><?php echo $this->__('And '); ?><span><?php echo $customerData['customer_fidelity_points_to_be_confirmed']; ?></span><?php echo $this->__(' points to be confirmed'); ?></p>
+					<?php if($customerData['customer_points_to_sum_next'] != 0): ?>
+					<p class="codebaby-feat-points-to-be-confirmed"><?php echo $this->__('+ '); ?><span><?php echo $currency_symbol.$customerData['customer_points_to_sum_next']; ?></span><?php echo $this->__(' to be summed on the next purchase.'); ?></p>
+					<?php endif; ?>
 				</div>
 			</div>
 			<div class="codebaby-simple-box">
@@ -79,8 +86,6 @@
 		</div>
 		<div class="codebaby-col2">
 			<div class="codebaby-box codebaby-bg-box">
-				<?php //$currency_name = Mage::app()->getLocale()->currency( $currency_code )->getName(); 
-				$currency_symbol = Mage::app()->getLocale()->currency( $currency_code )->getSymbol(); ?>
 				<h3><?php echo $this->__('Regras de Uso:'); ?></h3>
 				<p class="codebaby-paragrafo-padrao"><?php echo $this->__('A cada ')."<span class='codebaby-feat-text'>".$currency_symbol.$this->couponSystemMoneyAmount()."</span>".$this->__(' em compras, você acumula ')."<span class='codebaby-feat-text'>".$this->couponSystemPointsPerMoney().$this->__(' pontos.')."</span>"; ?></p>
 				<div class="codebaby-box-mini">
